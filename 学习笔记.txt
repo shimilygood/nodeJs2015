@@ -1,0 +1,53 @@
+===========git命令================
+1.初始化库：
+----git init
+2.添加文件
+----git add 1.txt
+3.查看修改状态
+----git status
+4.查看提交的log
+----git log
+5.提交到缓存库，并标注描述信息
+----git commit -m "first commit"
+6.提交到github服务器
+----git remote add origin https://github.com/shimilygood/nodeJs2015.git
+7.推送到远处服务器，并跟踪服务器的变化
+git push -u origin master
+
+
+
+
+
+=============上传提示命令=============
+创建库，并推送到服务器：
+echo # nodeJs2015 >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/shimilygood/nodeJs2015.git
+git push -u origin master
+
+推送已经存在的资源库：
+git remote add origin https://github.com/shimilygood/nodeJs2015.git
+git push -u origin master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
