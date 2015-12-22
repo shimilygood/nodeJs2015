@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../bootstrap.css"/>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
+</head>
+<body>
+ <div class="container">
+     <ul class="nav nav-tabs">
+         <li role="presentation"><a href="#/home">首页</a></li>
+         <li role="presentation"><a href="#/student">学生管理</a></li>
+     </ul>
+     <div class="row">
+         <col-md-4>
+             <ul>
+                 <li>学生列表</li>
+                 <li>添加学生</li>
+             </ul>
+         </col-md-4>
+         <col-md-8><div ng-view></div></col-md-8>
+     </div>
+
+ </div>
+</body>
+<script>
+    var app = angular.module('appModule',['ngRoute']);
+    app.config(function($routeProvider){
+        $routeProvider.when('/home',{
+            templateUrl:'tmpl/home.html',
+            controller:'HomeCtrl'
+        }).when('/student',{
+            templateUrl:'tmpl/student.html',
+            controller:'StudentCtrl'
+        }).otherwise({
+            redirectTo:'/home'
+        });
+    });
+    app.controller('HomeCtrl',function($scope){
+        $scope.name = 'Home';
+    });
+    app.controller('StudentCtrl',function($scope){
+        $scope.name = 'Student';
+    });
+</script>
+</html>

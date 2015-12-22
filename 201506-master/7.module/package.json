@@ -1,0 +1,20 @@
+{
+  "name": "xijinping",
+  "version": "1.0.0",
+  "description": "这是我的项目",
+  "main": "1.namespace.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/zhufengpeixun/mod"
+  },
+  "keywords": [
+    "xijinping"
+  ],
+  "author": "zfpx",
+  "license": "MIT"
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="Ctrl">
+<div ng-include="hello.html"></div>
+<div ng-include="'hello.html'"></div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    var appModule = angular.module('appModule',[]);
+    appModule.controller('Ctrl',function($scope){
+        $scope.hello = {html:'hello.html'};
+    });
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body >
+<div ng-controller="bookCtrl">
+    书名<input type="text" ng-model="bookname"/>
+    <input type="button" ng-click="addBook()" value="增加"/>
+    <ul>
+        <li ng-repeat="book in books">
+            {{book}}
+        </li>
+    </ul>
+</div>
+
+<div ng-controller="bookCtrl">
+    书名<input type="text" ng-model="bookname"/>
+    <input type="button" ng-click="addBook()" value="增加"/>
+    <ul>
+        <li ng-repeat="book in books">
+            {{book}}
+        </li>
+    </ul>
+</div>
+
+<script src="../angular.js"></script>
+<script>
+    //定义一个模块
+    var app = angular.module('appModule',[]);
+
+    app.factory('bookService',function($http){
+
+        return {
+            list:function(){
+                return $http({
+                    method:'GET',
+                    url:'http://localhost:8080/books'
+                })
+            },
+            add:function(bookname){
+                booklist.push(bookname);
+                return booklist;
+            }
+        }
+    });
+
+    app.run(function($http,$rootScope,bookService){
+        bookService.list().success(function(data){
+            $rootScope.books = data;
+        });
+    });
+    app.controller('bookCtrl',function($rootScope,$scope,bookService){
+        $scope.addBook = function(){
+            $rootScope.books = bookService.add($scope.bookname);
+        }
+    });
+</script>
+</body>
+</html>

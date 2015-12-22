@@ -1,0 +1,47 @@
+{
+  "data": {
+    "user": [
+      {
+        "first_name": "zhang",
+        "last_name": "san",
+        "createdAt": "2015-09-26T07:10:39.321Z",
+        "updatedAt": "2015-09-26T07:10:39.321Z",
+        "id": 1
+      },
+      {
+        "first_name": "li",
+        "last_name": "si",
+        "createdAt": "2015-09-26T07:12:13.901Z",
+        "updatedAt": "2015-09-26T07:12:13.901Z",
+        "id": 2
+      }
+    ]
+  },
+  "schema": {
+    "user": {
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    }
+  },
+  "counters": {
+    "user": {
+      "id": 2
+    }
+  }
+}

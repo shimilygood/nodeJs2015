@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div ng-controller="filterCtrl">
+        {{1300000000000|date}}
+        {{1300000000000|date:'yyyy-MM-dd hh:mm:ss'}}
+        {{888888|curr:'@'}}
+        <ul>
+            <li ng-repeat="item in items |limitTo:3|bb:'age':false">{{item}}</li>
+        </ul>
+    </div>
+ <script src="../angular.js"></script>
+ <script>
+     //定义一个模块
+  var app = angular.module('appModule',[]);
+  app.controller('filterCtrl',function($scope){
+      $scope.items = [{age:1},{age:4},{age:2}];
+  });
+     app.filter('curr',function(){
+         return function(content,unit){
+            return unit+content;
+         }
+     });
+     app.filter('bb',function(){
+         return function(items,field,isDesc){
+            return items.sort(function(item1,item2){
+                if(isDesc)
+                return item1[field] - item2[field];
+                else
+                    return item2[field] - item1[field];
+            });
+         }
+     });
+</script>
+</body>
+</html>

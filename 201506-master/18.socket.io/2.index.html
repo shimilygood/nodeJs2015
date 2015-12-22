@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="clock"></div>
+</body>
+<script>
+ var socket = new WebSocket('ws://localhost:8080/');
+ socket.onopen = function(){
+     console.log('已经连接上服务器了');
+/*     socket.send('hello server');//向服务器发消息
+     setInterval(function(){
+
+     },1000);*/
+ }
+    socket.onmessage = function(event){
+        document.querySelector('#clock').innerHTML = event.data;
+    }
+ socket.onclose = function(){
+     console.log('close');
+ }
+</script>
+</html>

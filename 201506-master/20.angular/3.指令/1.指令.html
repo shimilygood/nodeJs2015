@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <hello-world>刘</hello-world> <!-- 元素 -->
+    <div hello></div> <!-- 属性 -->
+    <div class="hello"></div> <!-- CSS 类 -->
+    <!--  directive:hello -->
+
+    <hello2></hello2>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //定义一个模块
+    var app = angular.module('appModule',[]);
+    /**
+     * angular加载完所有的模块之后执行的第一个方法。
+     * 这个模板要在多个指令里进行复用 类似于map
+     */
+    app.run(function($templateCache){
+        $templateCache.put('hello',{desc:'<div>hello <span class="ng-transclude"></span> </div>'});
+    });
+    app.directive('helloWorld',function($templateCache){
+        return {
+            /**
+             * 限制在哪些用法上生效
+             * 元素 Element E
+             * 属性 Attribute A
+             * CSS 类 Class C
+             * 注释  Comment M
+             */
+            restrict:'EACM',
+            //模板的内容要替换掉指令
+            //template:'<div> hello angular</div>',
+            //templateUrl:'hello.html',
+            template:$templateCache.get('hello').desc,
+            //template:cache['hello'],
+            //true是将指令完全替换为模板内容，false时模板的内容会做为指令子元素
+            replace:true,
+            transclude:true
+        }
+    });
+
+    app.directive('hello2',function(){
+        return {
+            /**
+             * 限制在哪些用法上生效
+             * 元素 Element E
+             * 属性 Attribute A
+             * CSS 类 Class C
+             * 注释  Comment M
+             */
+            restrict:'EACM',
+            //模板的内容要替换掉指令
+            //template:'<div> hello angular</div>',
+            templateUrl:'hello.html',
+            //true是将指令完全替换为模板内容，false时模板的内容会做为指令子元素
+            replace:true
+        }
+    });
+</script>
+</html>

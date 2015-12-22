@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../bootstrap.css"/>
+</head>
+<body ng-controller="WordCtrl">
+<div class="form-group" ng-class="{'has-error':username.length<3,'has-success':username.length>6}">
+    <label for="username">用户名</label>
+    <input id="username" class="form-control" ng-model="username"></input>
+    <div class="alert alert-success" ng-show="username.length>3&&username.length<6" role="alert">较验成功</div>
+    <div class="alert alert-danger" ng-hide="username.length>3&&username.length<6" role="alert">填写不合法</div>
+</div>
+</body>
+<script src="../angular.js"></script>
+<script>
+   var app =  angular.module('appModule',[]);
+   app.controller('WordCtrl',function($scope,$timeout){
+   });
+</script>
+</html>

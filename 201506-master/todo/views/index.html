@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+  <head>
+    <title>代办事项</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.css"/>
+    <script src="/lib/jquery.js"></script>
+    <script src="/lib/angular.js"></script>
+  </head>
+  <body ng-controller="todoController">
+   <div class="container">
+     <div class="jumbotron text-center">
+       <h1>todo <span class="label label-info">{{todos.length}}</span> </h1>
+     </div>
+
+     <div class="row">
+       <div class="col-sm-offset-2 col-sm-6">
+         请输入关键字<input type="text" ng-model="keyword"/>
+       </div>
+     </div>
+     <div class="row">
+       <div class="col-sm-4 col-sm-offset-4">
+         <div class="checkbox" ng-repeat="todo in todos">
+           <label>
+             <input name="todoname" value="{{todo._id}}" type="checkbox"/>{{todo.text}}
+             <span class="glyphicon glyphicon-trash" ng-click="delete(todo._id)"></span>
+             <span class="glyphicon glyphicon-edit" ng-click="edit(todo._id,todo.text)"></span>
+           </label>
+         </div>
+         <p class="text-center" ng-show="loading">
+           <span class="fa fa-spinner fa-spin fa-3x"></span>
+         </p>
+       </div>
+     </div>
+
+     <div class="row" id="todo-form">
+       <div class="col-sm-8 col-sm-offset-2 text-center">
+         <form action="">
+           <div class="form-group">
+             <input type="hidden" ng-model="todo._id"/>
+             <input type="text" class="form-control input-sm text-center" placeholder="请输入任务" ng-model="todo.text"/>
+           </div>
+           <button type="button" class="btn btn-primary btn-sm" ng-click="createTodo()">保存</button>
+           <button type="button" class="btn btn-danger btn-sm" ng-click="batchDelete()">删除</button>
+         </form>
+       </div>
+     </div>
+
+     </div>
+   </div>
+  </body>
+  <script>
+     var todoApp = angular.module('todoApp',[]);
+     todoApp.factory('todoService',function($http){
+       return {
+         list:function(){
+           return $http.get('/api/todos');
+         },
+         create:function(data){
+          return $http.post('/api/todos',data);
+         },
+         batchDelete:function(ids){
+            return $http.post('/api/todos/batchDelete',{ids:ids});
+         }
+       }
+     });
+     todoApp.controller('todoController',function($scope,$timeout,todoService){
+       $scope.todo = {};
+       $scope.todos = [];
+       $scope.filterTodos = [];
+       $scope.loading = true;
+       $scope.$watch('keyword',function(){
+         $scope.todos =  $scope.totalTodos.filter(function(todo){
+           return todo.text.indexOf($scope.keyword)!=-1;
+         });
+       })
+       todoService.list().success(function(data){
+           $scope.totalTodos= $scope.todos = data;//添加后返回所有的待办事项
+           $scope.loading = false;
+       });
+       $scope.createTodo = function(){
+          if($scope.todo.text){
+            $scope.loading = true;
+            todoService.create($scope.todo).success(function(data){
+              $scope.totalTodos= $scope.todos = data;//添加后返回所有的待办事项
+              $scope.todo = {};
+              $scope.loading = false;
+            });
+          }
+        }
+
+       $scope.batchDelete = function(){
+         var ids = [];
+         /*var checkboxes = document.getElementsByTagName('input');
+         for(var i=0;i<checkboxes.length;i++){
+           if(checkboxes[i].checked){
+              ids.push(checkboxes[i].value);
+           }
+         }*/
+         $("input:checked").each(function(){
+           ids.push($(this).val());
+         });
+         $scope.loading = true;
+         todoService.batchDelete(ids).success(function(data){
+           $scope.totalTodos= $scope.todos = data;//添加后返回所有的待办事项
+           $scope.loading = false;
+         });
+       }
+
+       $scope.delete = function(id){
+         $scope.loading = true;
+         todoService.batchDelete([id]).success(function(data){
+           $scope.totalTodos= $scope.todos = data;//添加后返回所有的待办事项
+           $scope.loading = false;
+         });
+       }
+
+       $scope.edit = function(_id,text){
+          $scope.todo = {
+            _id:_id,
+            text:text
+          };
+       }
+     });
+  </script>
+</html>

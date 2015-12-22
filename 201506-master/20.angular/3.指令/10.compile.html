@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .red{
+            color:red;
+        }
+    </style>
+</head>
+<body ng-controller="Ctrl">
+    <div times="4">
+        <p>{{words}}</p>
+    </div>
+
+</body>
+<script src="../angular.js"></script>
+<script>
+    var appModule = angular.module('appModule',[]);
+    appModule.controller('Ctrl',function($scope){
+        $scope.words = 'hello';
+    });
+    appModule.directive('times',function(){
+        return {
+            restrict:'A',
+            compile:function(element,attrs,transclude){
+                //对模板的内容进行变换
+                //console.log(transclude);
+                console.log('compile');
+                var tpl = element.children();
+                for(var i=0;i<attrs.times-1;i++){
+                    var e = tpl.clone();
+                    if(i%2==0)
+                        e.addClass('red');
+                    e.bind('click',function(){
+                        alert(e.html());
+                    });
+                    element.append(e);
+                }
+                return function(scope,ele,attr){
+                    console.log('link');
+                }
+            }
+        }
+    });
+</script>
+</html>

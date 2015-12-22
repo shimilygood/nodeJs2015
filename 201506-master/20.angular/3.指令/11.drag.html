@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #div1{
+            width:200px;
+            height:200px;
+            background-color: red;
+            position: absolute;
+            left:20px;
+            top:20px;
+            border:1px red solid;
+        }
+    </style>
+</head>
+<body ng-controller="Ctrl">
+    <div id="div1" my-drag>
+        欢迎你
+    </div>
+
+</body>
+<script src="../jquery.js"></script>
+<script src="../angular.js"></script>
+<script>
+    var appModule = angular.module('appModule',[]);
+    appModule.controller('Ctrl',function($scope){
+    });
+    appModule.directive('myDrag',function(){
+        return {
+            restrict:'A',
+            link:function(scope,ele,attr){
+                var disX =0;
+                var disY = 0;
+                ele.on('mousedown',function(ev){
+                  var self = this;
+                    //鼠标相对于边框的左偏移量
+                    disX = ev.pageX - $(this).offset().left;
+                    //鼠标相地于边框的上偏移量
+                    disY = ev.pageY - $(this).offset().top;
+                     $(document).on('mousemove',function(ev){
+                         $(self).css('left',ev.pageX - disX);
+                         $(self).css('top',ev.pageY - disY);
+                     });
+                    $(document).on('mouseup',function(){
+                        $(document).off();// 解除绑定
+                    });
+
+                });
+
+            }
+        }
+    });
+</script>
+</html>

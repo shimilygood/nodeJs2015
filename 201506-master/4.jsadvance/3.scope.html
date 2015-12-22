@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button id="btnOk"></button>
+</body>
+<script>
+    function Country(name){
+        this.name = name;
+    }
+    function City(name){
+        this.name = name;
+    }
+    function ClassRoom(name){
+        this.name = name;
+    }
+    var country = new Country('中国');
+    function Factory(){
+        var city = new City(Date.now());
+        return function(){
+            return city;
+        }
+    }
+    var f1 = Factory();
+    var f2 = Factory();
+    console.log(f1());
+    console.log(f2());
+
+    var cites = [];
+    var fa = null;
+    document.querySelector('#btnOk').addEventListener('click',function(){
+        if(!fa){
+            fa = Factory();
+        }
+        console.log(fa());
+    })
+</script>
+</html>

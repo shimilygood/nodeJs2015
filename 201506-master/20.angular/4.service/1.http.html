@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+     <ul>
+         <li ng-repeat="user in uesrs">
+             {{user}}
+         </li>
+     </ul>
+ <script src="../angular.js"></script>
+ <script>
+     //定义一个模块
+  var app = angular.module('appModule',[]);
+  app.run(function($http,$rootScope){
+      $http({
+          method:'GET',
+          url:'http://localhost:8080/users'
+      }).success(function(data,status,headers,config){
+          $rootScope.uesrs = data;
+      }).error(function(){
+
+      });
+  });
+</script>
+</body>
+</html>

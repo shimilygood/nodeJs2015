@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../bootstrap.css"/>
+</head>
+<body style="margin-top:30px" ng-controller="CartCtrl">
+    <div class="container" ng-controller="totalCtrl">
+        <p>总金额<input ng-change="change()" type="text" ng-model="total"/></p>
+        <div ng-controller="detailCtrl">
+            <table class="table table-bordered">
+                <tr>
+                    <td>商品名称</td>
+                    <td>价格</td>
+                    <td>数量</td>
+                </tr>
+                <tr ng-repeat="item in items">
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td><input ng-change="change()" type="text" ng-model="item.amount"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+<script src="../angular.js"></script>
+<script>
+   var app =  angular.module('appModule',[]);
+   app.controller('CartCtrl',function($scope){
+
+   });
+   app.controller('totalCtrl',function($scope){
+       $scope.total = 10;
+       $scope.$on('changeAmount',function(event,money){
+           $scope.total=money;
+       });
+       $scope.change = function(){
+           $scope.$broadcast('changeTotal',$scope.total);
+       }
+   });
+   app.controller('detailCtrl',function($rootScope,$scope){
+       $scope.items = [{
+           name:'航空母舰',
+           amount:1,
+           price:10
+       }];
+       $scope.change = function(){
+           var total = 0;
+           for(var i=0;i<$scope.items.length;i++){
+               total = total+$scope.items[i].price *$scope.items[i].amount;
+           }
+           $scope.$emit('changeAmount',total);
+       }
+       $scope.$on('changeTotal',function(event,total){
+           $scope.items[0].amount = total/$scope.items[0].price;
+       });
+       /*$rootScope.total = 0;
+       for(var i=0;i<$scope.items.length;i++){
+           $rootScope.total = $rootScope.total+$scope.items[i].price *$scope.items[i].amount;
+       }*/
+   });
+</script>
+</html>

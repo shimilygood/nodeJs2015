@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="homeCtrl">
+    <p ng-bind-html="currentWork"></p>
+    <p>{{name}}</p>
+    <p>{{mny|currency}}</p>
+    <div ng-controller="home2Ctrl">
+        <p>{{name}}</p>
+        <p>{{mny|currency:'@'}}</p>
+        <button ng-click="show()">点我加1</button>
+    </div>
+</div>
+
+</body>
+<script src="../angular.js"></script>
+<script>
+    //定义一个模块
+    var app = angular.module('appModule',[]);
+    //在此模块下定会引起一个控制器 homeCtrl
+    app.controller('homeCtrl',function($rootScope,$scope,$timeout,$sce){//自动注入 $scoope
+        $scope.name = '珠峰培训';
+        $scope.currentWork = $sce.trustAsHtml('<h1>hello<h1>');
+        console.log($scope);
+        /*function interval(){
+            $timeout(function(){
+                $scope.name=$scope.name+1;
+                interval();
+            },1000);
+        }
+        interval();*/
+        setInterval(function(){
+            //强行通知监听者进行检查
+            $scope.$apply(function(){
+                $scope.name=$scope.name+1;
+            });
+
+        },1000);
+        $scope.$watch('name',function(){
+            console.log('啊哟，你又变了',$scope.name);
+        });
+        $rootScope.mny = 999.99;
+        $scope.num = 0;
+       // $rootScope.mny='$'+ $rootScope.mny;
+        //$scope 模型
+    });
+    app.controller('home2Ctrl',function($rootScope,$scope){//自动注入 $scoope
+        $scope.name = '<h1>珠峰培训2</h1>';
+        $scope.num = 0;
+        //$scope.mny = 888.88;
+        //$scope 模型
+        //$rootScope.mny='@'+ $rootScope.mny;
+        $scope.show = function(){
+            $rootScope.mny = $rootScope.mny+1;
+            console.log($scope);
+        }
+    });
+</script>
+</html>

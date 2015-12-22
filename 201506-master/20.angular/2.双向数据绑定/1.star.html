@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .fa{
+            float:left;
+            list-style: none;
+            width:40px;
+            height:40px;
+            display: inline-block;
+        }
+        .fa-star{
+            background-image: url('star.jpg');
+        }
+        .fa-star-o{
+            background-image: url('empty.png');
+        }
+    </style>
+</head>
+<body ng-controller="WordCtrl">
+  <ul>
+      <li class="fa" ng-class="{'fa-star':score>=1,'fa-star-o':score<1}" ng-mouseenter="score=1"></li>
+      <li class="fa" ng-class="{'fa-star':score>=2,'fa-star-o':score<2}" ng-mouseenter="score=2"></li>
+      <li class="fa" ng-class="{'fa-star':score>=3,'fa-star-o':score<3}" ng-mouseenter="score=3"></li>
+      <li class="fa" ng-class="{'fa-star':score>=4,'fa-star-o':score<4}" ng-mouseenter="score=4"></li>
+      <li class="fa" ng-class="{'fa-star':score>=5,'fa-star-o':score<5}" ng-mouseenter="score=5"></li>
+  </ul>
+</body>
+<script src="../angular.js"></script>
+<script>
+   var app =  angular.module('appModule',[]);
+   app.controller('WordCtrl',function($scope,$timeout){
+       $scope.score = 0;
+   });
+</script>
+</html>

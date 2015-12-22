@@ -1,0 +1,10 @@
+1.定义和合法性校验
+https://github.com/balderdashy/waterline-docs/blob/master/models.md
+2.查询条件
+https://github.com/balderdashy/waterline-docs/blob/master/query-methods.md
+3.查询语言
+https://github.com/balderdashy/waterline-docs/blob/master/query-language.md
+4.对象之间的关系
+https://github.com/balderdashy/waterline-docs/blob/master/associations.md
+5.npmjs
+https://www.npmjs.com/package/waterline

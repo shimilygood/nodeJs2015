@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body ng-controller="UserCtrl">
+    用户名 <input type="text" name="username" ng-model="user.username"/>
+    邮箱 <input type="text" name="email" ng-model="user.email"/>
+    <button ng-click="save()">保存</button>
+    <button ng-click="reset()">重置</button>
+</body>
+<script src="../angular.js"></script>
+<script>
+ angular.module('appModule', []);
+ angular.module('appModule').controller('UserCtrl', function ($scope,$http) {
+     $http({
+         url:'/user',
+         method:'GET'
+     }).success(function(data){
+         $scope.user = data;
+     });
+
+                $scope.reset = function () {
+                    $scope.user = {};
+                }
+                $scope.save = function () {
+                    $http({
+                        url:'/user',
+                        method:'POST',
+                        data:$scope.user
+                    }).success(function(data){
+                        console.log(data);
+                    });
+                    return false;
+                }
+            });
+</script>
+</html>

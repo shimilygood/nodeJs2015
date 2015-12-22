@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="Ctrl1">
+    <person like="fight()">孙悟空</person>
+    {{hobby}}
+    <span ng-bind="hobby"></span>
+</div>
+<div ng-controller="Ctrl2">
+    <person like="eat()">猪八戒</person>
+</div>
+</body>
+<script src="../angular.js"></script>
+<script>
+    //定义一个模块
+    var app = angular.module('appModule',[]);
+    app.controller('Ctrl1',function($rootScope,$scope){
+        $rootScope.log = function(){
+            console.log('我要开始记日志啦');
+        }
+        $scope.hobby = '打架';
+        $scope.fight = function(){
+            alert('喜欢'+$scope.hobby);
+        }
+    });
+    app.controller('Ctrl2',function($rootScope,$scope){
+        $scope.hobby = '吃';
+        $scope.eat = function(){
+            alert('喜欢'+$scope.hobby);
+        }
+    });
+
+    app.directive('person',function(){
+        return {
+            restrict:'E',
+            //链接函数
+            /**
+             * @param scope 当前指令的scope=控制器上的scope
+             * @param element 当前指令所属的元素本身
+             * @param attrs 当前元素的属性
+             */
+            link:function(scope,element,attrs){
+                //为当前的指令元素绑定click事件
+                element.bind('click',function(){
+                    //1.可以直接调用scope上的方法
+                    scope.log();
+                    //2.直接调用控制器上的方法
+                    //scope.fight();
+                    //scope.$apply('fight()');
+                    //3.可以根据指令的不同属性调用scope上的方法。
+                    scope.$apply(attrs.like);
+                    //scope.$apply(element.attr('like'));
+                });
+            }
+        }
+    });
+</script>
+</html>
